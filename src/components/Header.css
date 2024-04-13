@@ -1,0 +1,46 @@
+.header {
+  background-color: #436850; /* Цвет фона хэдера */
+  position: sticky;
+  top: 0;
+  height: 60px;
+}
+
+h2 {
+  color: #FBFADA; /* Цвет текста */
+}
+
+.input-search {
+  border-radius: 15px;
+  background-color: #FBFADA;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1%;
+  align-items: center;
+  max-height: 100%;
+}
+
+.header__nav ul {
+  list-style-type: none;
+  display: flex;
+}
+
+.header__nav li {
+  margin-right: 16px;
+}
+
+.header__nav a {
+  text-decoration: none;
+  color: white;
+}
+
+@media (max-width: 576px) {
+  .header {
+    height: 190px;
+  }
+  .header__nav {
+    flex-direction: column;
+  }
+}
