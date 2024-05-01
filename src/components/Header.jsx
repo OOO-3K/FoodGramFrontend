@@ -1,14 +1,23 @@
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <header className="header">
       <nav className="header__nav">
-        <a href="">
+        <Link to="/">
           <h2>FoodGram</h2>
-        </a>
-        
-        <input id="recipe-search-input" type="text" className="input-search" placeholder="Recipe search"></input>
+        </Link>
+
+        <div>
+          <input
+            id="recipe-search-input"
+            type="text"
+            className="input-search"
+            placeholder="Recipe search"
+          ></input>
+          <button className="filter-button"></button>
+        </div>
         <ul>
           <a href="">
             <li>

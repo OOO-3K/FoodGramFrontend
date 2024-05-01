@@ -13,3 +13,9 @@
 .recipeCard-title {
     color: #12372A;
 }
+
+@media (max-width: 576px) {
+    .recipeCard {
+      width: 300px;
+    }
+  }

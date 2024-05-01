@@ -1,7 +1,5 @@
 {
-    "config": {
-        "server": {
-            "address": "localhost:7434/"
-        }
+    "server": {
+        "address": "https://localhost:7242/"
     }
 }

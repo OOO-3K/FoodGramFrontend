@@ -1,14 +1,15 @@
 import "./App.css";
-import Header from "./components/Header.jsx";
-import Main from "./components/Main.jsx";
-import Footer from "./components/Footer.jsx";
+import {HashRouter as Router, Routes, Route} from 'react-router-dom'
+import MainPage from "./pages/MainPage.jsx";
+import RecipePage from "./pages/RecipePage.jsx";
 
 export default function App() {
   return (
-    <>
-      <Header></Header>
-      <Main></Main>
-      <Footer></Footer>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/:recipeId" element={<RecipePage />} />
+      </Routes>
+    </Router>
   );
 }

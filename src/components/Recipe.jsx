@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "./Main.css";
-import getRecipes from "../api/getRecipes.jsx";
+import getRecipeById from "../api/getRecipeById.jsx";
 
-export default function Main() {
-  const [recipes, setRecipes] = useState(null);
+export default function Recipe({recipeId}) {
+  const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getRecipes();
+        const data = await getRecipeById(recipeId);
         if (data) {
-          setRecipes(data);
+          setRecipe(data);
         }
       } catch (error) {
         console.error(error);
@@ -22,10 +22,10 @@ export default function Main() {
 
   return (
     <main className="Main">
-      {recipes ? (
-        recipes
+      {recipe ? (
+        recipe
       ) : (
-        <div>Loading recipes...</div>
+        <div>Loading recipe...</div>
       )}
     </main>
   );

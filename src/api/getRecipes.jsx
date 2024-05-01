@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import RecipeCard from 'C:\\Users\\andre\\Desktop\\FoodGramFrontend\\src\\components\\RecipeCard.jsx';
+import RecipeCard from '../components/RecipeCard.jsx';
+import config from '/config.json';
 
 export default async function getRecipes() {
   try {
-    const response = await axios.get('https://localhost:7242/api/Home/recipes');
+    
+    const response = await axios.get(`${config.server.address}api/Home/recipes`);
     const posts = response.data || [];
     
     return (

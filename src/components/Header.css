@@ -6,12 +6,13 @@
 }
 
 h2 {
-  color: #FBFADA; /* Цвет текста */
+  color: #fbfada; /* Цвет текста */
 }
 
 .input-search {
   border-radius: 15px;
-  background-color: #FBFADA;
+  background-color: #fbfada;
+  color: #12372a;
 }
 
 .header__nav {
@@ -34,6 +35,26 @@ h2 {
 .header__nav a {
   text-decoration: none;
   color: white;
+}
+
+.filter-button {
+  background-image: url(../img/filter.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: #436850;
+  background-color: #436850;
+  background-size: 20px;
+  height: 30px;
+  width: 20px;
+}
+
+.filter-button:focus {
+  outline: none;
+  mix-blend-mode: hard-light;
+}
+
+.filter-button:active {
+  mix-blend-mode: overlay;
 }
 
 @media (max-width: 576px) {
