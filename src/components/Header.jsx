@@ -1,7 +1,8 @@
 import "./Header.css";
 import { Link } from "react-router-dom";
 
-export default function Header() {
+export default function Header({setSearchInput}) {
+
   return (
     <header className="header">
       <nav className="header__nav">
@@ -15,6 +16,13 @@ export default function Header() {
             type="text"
             className="input-search"
             placeholder="Recipe search"
+            onKeyUp={(e) => {
+              if (e.key === "Enter" || e.keyCode === 13) {
+                const recipeName = e.target.value.trim();
+            
+                setSearchInput(recipeName);
+              }
+            }}
           ></input>
           <button className="filter-button"></button>
         </div>

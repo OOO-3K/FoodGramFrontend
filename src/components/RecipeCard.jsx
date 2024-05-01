@@ -15,9 +15,10 @@ export default function RecipeCard(recipe) {
           {capitalizeFirstLetter(recipe.Name)}
         </h3>
       </Link>
+      {recipe.ImagePath && <img src={recipe.ImagePath} alt={`Picture for ${recipe.Name} wasn't found.`} className="recipeCard-image"></img>}
       <p>{recipe.Description}</p>
-      <p>Cooking Time: {recipe.CookingTime} min.</p>
-      <p>Rating: {recipe.Rating ? recipe.Rating : "N/A"}</p>
+      <p><strong>Cooking Time</strong>: {recipe.CookingTime} min.</p>
+      <p><strong>Rating</strong>: {recipe.Rating ? recipe.Rating : "N/A"}</p>
       <ul>
         {ingredients.map((ingredient) => (
           <li key={ingredient.Id}>

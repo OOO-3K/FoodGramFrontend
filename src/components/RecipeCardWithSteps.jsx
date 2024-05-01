@@ -12,9 +12,10 @@ export default function RecipeCardWithSteps(recipe) {
     <ul>
       <li key={recipe.Id} className="recipeCard">
         <h3 className="recipeCard-title">{capitalizeFirstLetter(recipe.Name)}</h3>
+        {recipe.ImagePath && <img src={recipe.ImagePath} alt={`Picture for ${recipe.Name} wasn't found.`} className="recipeCard-image"></img>}
         <p>{recipe.Description}</p>
-        <p>Cooking Time: {recipe.CookingTime} min.</p>
-        <p>Rating: {recipe.Rating ? recipe.Rating : "N/A"}</p>
+        <p><strong>Cooking Time</strong>: {recipe.CookingTime} min.</p>
+        <p><strong>Rating</strong>: {recipe.Rating ? recipe.Rating : "N/A"}</p>
         <ul>
           {ingredients.map((ingredient) => (
             <li key={ingredient.Id}>
@@ -27,8 +28,9 @@ export default function RecipeCardWithSteps(recipe) {
         {steps.map((step) => (
           <li key={step.Id} className="recipeCard">
             <h3 className="recipeCard-title">{step.StepNumber}. {capitalizeFirstLetter(step.Name)}</h3>
+            {step.ImagePath && <img src={step.ImagePath} alt={`Picture for ${step.Name} wasn't found.`} className="recipeCard-image"></img>}
             <p>{step.Description}</p>
-            <p>Cooking Time: {step.CookingTime} min.</p>
+            <p><strong>Cooking Time</strong>: {step.CookingTime} min.</p>
           </li>
         ))}
       </ul>

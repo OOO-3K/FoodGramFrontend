@@ -14,8 +14,17 @@
     color: #12372A;
 }
 
+.recipeCard-image {
+  max-width: 300px;
+  height: auto;
+  border-radius: 15px;
+}
+
 @media (max-width: 576px) {
     .recipeCard {
       width: 300px;
+    }
+    .recipeCard-image {
+      max-width: 200px;
     }
   }

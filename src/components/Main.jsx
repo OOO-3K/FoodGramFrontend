@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import "./Main.css";
 import getRecipes from "../api/getRecipes.jsx";
 
-export default function Main() {
+export default function Main(searchInput) {
   const [recipes, setRecipes] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getRecipes();
+        const data = await getRecipes(searchInput);
         if (data) {
           setRecipes(data);
         }
@@ -18,15 +18,11 @@ export default function Main() {
     };
 
     fetchData();
-  }, []);
+  }, [searchInput]);
 
   return (
     <main className="Main">
-      {recipes ? (
-        recipes
-      ) : (
-        <div>Loading recipes...</div>
-      )}
+      {recipes ? recipes : <div>Loading recipes...</div>}
     </main>
   );
 }
