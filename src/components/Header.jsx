@@ -1,7 +1,13 @@
 import "./Header.css";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Header({setSearchInput}) {
+export default function Header({
+  setSearchInput,
+  setShowFiltersTab,
+  showFiltersTab,
+}) {
+  const [style, setStyle] = useState("filter-button");
 
   return (
     <header className="header">
@@ -9,7 +15,6 @@ export default function Header({setSearchInput}) {
         <Link to="/">
           <h2>FoodGram</h2>
         </Link>
-
         <div>
           <input
             id="recipe-search-input"
@@ -19,12 +24,22 @@ export default function Header({setSearchInput}) {
             onKeyUp={(e) => {
               if (e.key === "Enter" || e.keyCode === 13) {
                 const recipeName = e.target.value.trim();
-            
+
                 setSearchInput(recipeName);
               }
             }}
           ></input>
-          <button className="filter-button"></button>
+          <button
+            className={style}
+            onClick={() => {
+              setShowFiltersTab(!showFiltersTab);
+              if (!showFiltersTab) {
+                setStyle("filter-button-activated");
+              } else {
+                setStyle("filter-button");
+              }
+            }}
+          ></button>
         </div>
         <ul>
           <a href="">

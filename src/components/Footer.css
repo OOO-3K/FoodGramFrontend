@@ -1,14 +1,15 @@
 .footer {
-    background-color: #436850; /* Цвет фона футера */
-    height: 50px;
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  background-color: #436850; /* Цвет фона футера */
+  height: 50px;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-h2, h3 {
-  color: #FBFADA;
+h2,
+h3 {
+  color: #fbfada;
 }
 
 @media (max-width: 576px) {

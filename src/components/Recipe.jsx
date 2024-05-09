@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./Main.css";
 import getRecipeById from "../api/getRecipeById.jsx";
 
-export default function Recipe({recipeId}) {
+export default function Recipe({ recipeId }) {
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
@@ -22,11 +22,7 @@ export default function Recipe({recipeId}) {
 
   return (
     <main className="Main">
-      {recipe ? (
-        recipe
-      ) : (
-        <div>Loading recipe...</div>
-      )}
+      {recipe ? recipe : <div>Loading recipe...</div>}
     </main>
   );
 }

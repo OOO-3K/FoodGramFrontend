@@ -4,7 +4,7 @@ import Recipe from "../components/Recipe.jsx";
 import { useParams } from "react-router";
 
 export default function RecipePage() {
-    const { recipeId } = useParams();
+  const { recipeId } = useParams();
   return (
     <>
       <Header></Header>
