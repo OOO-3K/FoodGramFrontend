@@ -1,4 +1,5 @@
 export default class RecipeFilter {
+  name;
   ratingFrom;
   ratingTo;
   cookingTimeFrom;
@@ -6,6 +7,7 @@ export default class RecipeFilter {
   ingredients;
 
   constructor() {
+    this.name = null;
     this.ratingFrom = null;
     this.ratingTo = null;
     this.cookingTimeFrom = null;

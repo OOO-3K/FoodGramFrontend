@@ -25,3 +25,13 @@
   margin: 0px 2px;
   padding-left: 10px;
 }
+
+.searchFilterApplyButton {
+  border-radius: 15px;
+  background-color: #adbc9f;
+  border-color: #12372a;
+  color: #12372a;
+  margin-left: 200px;
+  margin-top: 20px;
+  padding-left: 10px;
+}

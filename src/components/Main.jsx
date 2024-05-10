@@ -4,17 +4,18 @@ import getRecipes from "../api/getRecipes.jsx";
 import SearchFilterTab from "./SearchFilterTab";
 
 export default function Main({
-  searchInput,
   filters,
   setFilters,
   showFiltersTab,
+  updateFilters,
+  setUpdateFilters,
 }) {
   const [recipes, setRecipes] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getRecipes(searchInput, filters);
+        const data = await getRecipes(filters);
         if (data) {
           setRecipes(data);
         }
@@ -24,7 +25,7 @@ export default function Main({
     };
 
     fetchData();
-  }, [searchInput, filters]);
+  }, [updateFilters]);
 
   return (
     <main className="Main">
@@ -32,6 +33,8 @@ export default function Main({
         <SearchFilterTab
           filters={filters}
           setFilters={setFilters}
+          updateFilters={updateFilters}
+          setUpdateFilters={setUpdateFilters}
         ></SearchFilterTab>
       )}
       {recipes ? recipes : <div>Loading recipes...</div>}

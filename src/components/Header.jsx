@@ -3,9 +3,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header({
-  setSearchInput,
+  filters,
+  setFilters,
   setShowFiltersTab,
   showFiltersTab,
+  updateFilters,
+  setUpdateFilters,
 }) {
   const [style, setStyle] = useState("filter-button");
 
@@ -25,8 +28,13 @@ export default function Header({
               if (e.key === "Enter" || e.keyCode === 13) {
                 const recipeName = e.target.value.trim();
 
-                setSearchInput(recipeName);
+                setFilters({ ...filters, name: recipeName });
+                setUpdateFilters(!updateFilters);
               }
+            }}
+            onChange={(e) => {
+              const recipeName = e.target.value.trim();
+              setFilters({ ...filters, name: recipeName });
             }}
           ></input>
           <button

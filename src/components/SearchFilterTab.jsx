@@ -1,6 +1,11 @@
 import "./SearchFilterTab.css";
 
-export default function SearchFilterTab({ filters, setFilters }) {
+export default function SearchFilterTab({
+  filters,
+  setFilters,
+  updateFilters,
+  setUpdateFilters,
+}) {
   const addIngredient = (e) => {
     e.preventDefault();
     if (filters.ingredients.length < 10) {
@@ -101,6 +106,15 @@ export default function SearchFilterTab({ filters, setFilters }) {
             </>
           ))}
         </div>
+        <button
+          className="searchFilterApplyButton"
+          onClick={(e) => {
+            e.preventDefault();
+            setUpdateFilters(!updateFilters);
+          }}
+        >
+          Apply filters
+        </button>
       </div>
     </form>
   );
