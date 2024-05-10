@@ -3,4 +3,5 @@
   overflow: auto;
   overflow-y: auto;
   background-color: #12372a;
+  position: static;
 }

@@ -1,2 +1,27 @@
 .searchFilterTabCard {
+  background-color: #436850;
+  border-radius: 5px;
+  margin: 10px 0px;
+  padding: 10px 10px;
+  width: max-content;
+  height: max-content;
+  position: fixed;
+}
+
+.searchFilterInput {
+  border-radius: 15px;
+  background-color: #fbfada;
+  color: #12372a;
+  margin: 0px 10px;
+  padding-left: 10px;
+  width: 130px;
+}
+
+.searchFilterIngredientButton {
+  border-radius: 15px;
+  background-color: #adbc9f;
+  border-color: #12372a;
+  color: #12372a;
+  margin: 0px 2px;
+  padding-left: 10px;
 }

@@ -1,22 +1,19 @@
-import { useState } from "react";
 import "./SearchFilterTab.css";
 
 export default function SearchFilterTab({ filters, setFilters }) {
-  const [ingredients, setIngredients] = useState([]);
-
   const addIngredient = (e) => {
     e.preventDefault();
-    setIngredients([...ingredients, ""]);
-    setFilters({ ...filters, ingredients: ingredients });
+    if (filters.ingredients.length < 10) {
+      setFilters({ ...filters, ingredients: [...filters.ingredients, ""] });
+    }
   };
 
   const removeIngredient = (e) => {
     e.preventDefault();
-    if (ingredients.length > 0) {
-      const newArray = [...ingredients];
+    if (filters.ingredients.length > 0) {
+      const newArray = [...filters.ingredients];
       newArray.splice(newArray.length - 1, 1);
-      setIngredients(newArray);
-      setFilters({ ...filters, ingredients: ingredients });
+      setFilters({ ...filters, ingredients: newArray });
     }
   };
 
@@ -27,6 +24,9 @@ export default function SearchFilterTab({ filters, setFilters }) {
         <input
           type="number"
           placeholder="From"
+          className="searchFilterInput"
+          min={0}
+          max={10}
           onChange={(e) =>
             setFilters({ ...filters, ratingFrom: e.target.value })
           }
@@ -34,6 +34,9 @@ export default function SearchFilterTab({ filters, setFilters }) {
         <input
           type="number"
           placeholder="To"
+          min={0}
+          max={10}
+          className="searchFilterInput"
           onChange={(e) => setFilters({ ...filters, ratingTo: e.target.value })}
         ></input>
       </div>
@@ -42,6 +45,8 @@ export default function SearchFilterTab({ filters, setFilters }) {
         <input
           type="number"
           placeholder="From"
+          className="searchFilterInput"
+          min={0}
           onChange={(e) =>
             setFilters({ ...filters, cookingTimeFrom: e.target.value })
           }
@@ -49,6 +54,8 @@ export default function SearchFilterTab({ filters, setFilters }) {
         <input
           type="number"
           placeholder="To"
+          className="searchFilterInput"
+          min={0}
           onChange={(e) =>
             setFilters({ ...filters, cookingTimeTo: e.target.value })
           }
@@ -56,23 +63,44 @@ export default function SearchFilterTab({ filters, setFilters }) {
       </div>
       <div>
         <h3>Ingredients</h3>
-        <button onClick={(e) => removeIngredient(e)}>Remove Ingredient</button>
-        <button onClick={(e) => addIngredient(e)}>Add Ingredient</button>
-        {ingredients.map((ingredient, index) => (
-          <div>
-            <input
-              type="text"
-              name={`ingredients[${index}]`}
-              value={ingredient}
-              onChange={(e) => {
-                const updatedIngredients = [...ingredients];
-                updatedIngredients[index] = e.target.value;
-                setIngredients(updatedIngredients);
-                setFilters({ ...filters, ingredients: ingredients });
-              }}
-            ></input>
-          </div>
-        ))}
+        <button
+          className="searchFilterIngredientButton"
+          onClick={(e) => removeIngredient(e)}
+        >
+          Remove Ingredient
+        </button>
+        <button
+          className="searchFilterIngredientButton"
+          onClick={(e) => addIngredient(e)}
+        >
+          Add Ingredient
+        </button>
+        <div>
+          {filters.ingredients.map((ingredient, index) => (
+            <>
+              {index % 2 === 0 ? (
+                <>
+                  <div></div>
+                </>
+              ) : (
+                <></>
+              )}
+              <input
+                type="text"
+                name={`ingredients[${index}]`}
+                key={`ingredients[${index}]`}
+                value={ingredient === null ? "" : ingredient}
+                className="searchFilterInput"
+                onChange={(e) => {
+                  const updatedIngredients = [...filters.ingredients];
+                  updatedIngredients[index] =
+                    e.target.value === null ? "" : e.target.value;
+                  setFilters({ ...filters, ingredients: updatedIngredients });
+                }}
+              ></input>
+            </>
+          ))}
+        </div>
       </div>
     </form>
   );
