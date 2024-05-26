@@ -6,7 +6,7 @@ import config from "/config.json";
 export default async function getRecipeById(recipeId) {
   try {
     const response = await axios.get(
-      `${config.server.address}api/Home/recipes/${recipeId}`
+      `${config.server.address}api/recipes/${recipeId}`
     );
     const post = response.data || [];
 

@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import getIngredientsByPhoto from "../api/getIngredientsByPhoto.jsx";
 import "./SearchFilterTab.css";
 
 export default function SearchFilterTab({
@@ -6,6 +8,33 @@ export default function SearchFilterTab({
   updateFilters,
   setUpdateFilters,
 }) {
+  const [file, setFile] = useState();
+  const [formData, setFormData] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getIngredientsByPhoto(formData);
+        if (data) {
+          setFilters({ ...filters, ingredients: [] });
+          if (data.detections.length === 0) {
+            console.log("Couldn't find any ingredients on the uploaded image.");
+          }
+          data.detections.forEach((ingredient) => {
+            setFilters({
+              ...filters,
+              ingredients: [...filters.ingredients, ingredient],
+            });
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [formData]);
+
   const addIngredient = (e) => {
     e.preventDefault();
     if (filters.ingredients.length < 10) {
@@ -19,6 +48,20 @@ export default function SearchFilterTab({
       const newArray = [...filters.ingredients];
       newArray.splice(newArray.length - 1, 1);
       setFilters({ ...filters, ingredients: newArray });
+    }
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+  };
+
+  const getIngredients = (e) => {
+    e.preventDefault();
+    if (file !== undefined && file !== null) {
+      const newFormData = new FormData();
+      newFormData.append("image", file);
+      setFormData(newFormData);
     }
   };
 
@@ -105,6 +148,21 @@ export default function SearchFilterTab({
               ></input>
             </>
           ))}
+        </div>
+        <div style={{ paddingTop: "20px" }}>
+          <input
+            type="file"
+            id="detector-input"
+            accept="image/*"
+            onChange={(e) => handleChange(e)}
+          ></input>
+          <div></div>
+          <button
+            className="searchFilterIngredientButton"
+            onClick={(e) => getIngredients(e)}
+          >
+            Get ingredients from photo
+          </button>
         </div>
         <button
           className="searchFilterApplyButton"

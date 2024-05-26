@@ -57,7 +57,9 @@ export default function Header({
           </a>
           <a href="">
             <li>
-              <h2>Profile</h2>
+              <Link to="/">
+                <h2>Profile</h2>
+              </Link>
             </li>
           </a>
         </ul>

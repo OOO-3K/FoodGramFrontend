@@ -21,7 +21,7 @@ export default async function getRecipes(filters) {
   }
   try {
     const response = await axios.get(
-      `${config.server.address}api/Home/recipes/`,
+      `${config.server.address}api/recipes/`,
       {
         params: {
           name: filters.name,

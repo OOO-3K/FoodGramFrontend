@@ -10,7 +10,7 @@ export default function RecipeCard(recipe) {
 
   return (
     <li key={recipe.Id} className="recipeCard">
-      <Link to={`/${recipe.Id}`}>
+      <Link to={`recipes/${recipe.Id}`}>
         <h3 className="recipeCard-title">
           {capitalizeFirstLetter(recipe.Name)}
         </h3>
