@@ -1,8 +1,122 @@
 import "./RecipeCard.css";
+import "./RecipeCardWithSteps.css";
+import { useState, useEffect } from "react";
+import recipeGPTDescription from "./models/recipeGPTDescription.jsx";
+import recipeGPTAnswers from "./models/recipeGPTAnswers.jsx";
+import getGPTRecipeDescription from "../api/getGPTRecipeDescription.jsx";
+import getGPTRecipeQuestions from "../api/getGPTRecipeQuestions.jsx";
+import getGPTRecipeAnswers from "../api/getGPTRecipeAnswers.jsx";
 
 export default function RecipeCardWithSteps(recipe) {
+  const [recipeModel, setRecipeModel] = useState(() => {
+    const recipe = new recipeGPTDescription();
+    return recipe;
+  });
+  const [recipeAnswerModel, setRecipeAnswerModel] = useState(() => {
+    const recipe = new recipeGPTAnswers();
+    return recipe;
+  });
+  const [recipeDescription, setRecipeDescription] = useState("");
+  const [recipeQuestions, setRecipeQuestions] = useState("");
+  const [recipeAnswers, setRecipeAnswers] = useState("");
+
+  const [toggleAnswers, setToggleAnswers] = useState(false);
+
+  const [currentStep, setCurrentStep] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+
   const ingredients = recipe.Ingredients || [];
   const steps = recipe.RecipeSteps || [];
+
+  useEffect(() => {
+    const fetchDataDescription = async () => {
+      try {
+        recipeModel.recipe_name = recipe.Name;
+        recipeModel.time = recipe.CookingTime;
+        recipeModel.ingredients = JSON.stringify(
+          ingredients.map((ingredient) => ingredient.Name)
+        );
+        recipeModel.steps = JSON.stringify(steps.map((step) => step.Name));
+        if (
+          recipeModel.recipe_name == null ||
+          recipeModel.time == null ||
+          recipeModel.ingredients.length === 0 ||
+          recipeModel.steps.length === 0
+        ) {
+          return;
+        }
+        const data = await getGPTRecipeDescription(recipeModel);
+        if (data) {
+          setRecipeDescription(data.description);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchDataQuestions = async () => {
+      try {
+        recipeModel.recipe_name = recipe.Name;
+        recipeModel.time = recipe.CookingTime;
+        recipeModel.ingredients = JSON.stringify(
+          ingredients.map((ingredient) => ingredient.Name)
+        );
+        recipeModel.steps = JSON.stringify(steps.map((step) => step.Name));
+        if (
+          recipeModel.recipe_name == null ||
+          recipeModel.time == null ||
+          recipeModel.ingredients.length === 0 ||
+          recipeModel.steps.length === 0
+        ) {
+          return;
+        }
+        const data = await getGPTRecipeQuestions(recipeModel);
+        if (data) {
+          setRecipeQuestions(data.questions);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDataDescription();
+    fetchDataQuestions();
+  }, []);
+
+  useEffect(() => {
+    const fetchDataAnswers = async () => {
+      try {
+        recipeAnswerModel.recipe_name = recipe.Name;
+        recipeAnswerModel.time = recipe.CookingTime;
+        recipeAnswerModel.ingredients = JSON.stringify(
+          ingredients.map((ingredient) => ingredient.Name)
+        );
+        recipeAnswerModel.steps = JSON.stringify(
+          steps.map((step) => step.Name)
+        );
+        recipeAnswerModel.step_num = currentStep + 1;
+        recipeAnswerModel.question = currentQuestion;
+        if (
+          recipeAnswerModel.recipe_name == null ||
+          recipeAnswerModel.time == null ||
+          recipeAnswerModel.ingredients.length === 0 ||
+          recipeAnswerModel.steps.length === 0 ||
+          recipeAnswerModel.step_num === null ||
+          recipeAnswerModel.question === null
+        ) {
+          return;
+        }
+        const data = await getGPTRecipeAnswers(recipeAnswerModel);
+        if (data) {
+          setRecipeAnswers(data.answer);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDataAnswers();
+  }, [toggleAnswers]);
 
   function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -23,6 +137,18 @@ export default function RecipeCardWithSteps(recipe) {
         )}
         <p>{recipe.Description}</p>
         <p>
+          {recipeDescription ? (
+            <div>
+              <strong>
+                GPT Description:<br></br>
+              </strong>
+              <div style={{ padding: "0px 10px" }}>{recipeDescription}</div>
+            </div>
+          ) : (
+            ""
+          )}
+        </p>
+        <p>
           <strong>Cooking Time</strong>: {recipe.CookingTime} min.
         </p>
         <p>
@@ -40,7 +166,7 @@ export default function RecipeCardWithSteps(recipe) {
         </ul>
       </li>
       <ul>
-        {steps.map((step) => (
+        {steps.map((step, index) => (
           <li key={step.Id} className="recipeCard">
             <h3 className="recipeCard-title">
               {step.StepNumber}. {capitalizeFirstLetter(step.Name)}
@@ -56,6 +182,81 @@ export default function RecipeCardWithSteps(recipe) {
             <p>
               <strong>Cooking Time</strong>: {step.CookingTime} min.
             </p>
+            <div>
+              {recipeQuestions[index] ? (
+                <div>
+                  <strong>
+                    GPT Questions:<br></br>
+                  </strong>
+                  <div style={{ padding: "0px 10px" }}>
+                    <ul>
+                      {recipeQuestions[index]?.map((question) => (
+                        <li>
+                          <button
+                            className="buttonQuestion"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentQuestion(question);
+                              setCurrentStep(index);
+                              setToggleAnswers(!toggleAnswers);
+                            }}
+                          >
+                            {question}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {currentStep == index ? (
+              <input
+                type="text"
+                className="inputQuestion"
+                placeholder="Write your question here"
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" || e.keyCode === 13) {
+                    const yoursQuestion = e.target.value.trim();
+
+                    if (yoursQuestion.length > 0) {
+                      setCurrentQuestion(yoursQuestion);
+                      setCurrentStep(index);
+                      setToggleAnswers(!toggleAnswers);
+                    }
+                  }
+                }}
+              ></input>
+            ) : (
+              <input
+                type="text"
+                className="inputQuestion"
+                placeholder="Write your question here"
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" || e.keyCode === 13) {
+                    const yoursQuestion = e.target.value.trim();
+
+                    if (yoursQuestion.length > 0) {
+                      setCurrentQuestion(yoursQuestion);
+                      setCurrentStep(index);
+                      setToggleAnswers(!toggleAnswers);
+                    }
+                  }
+                }}
+              ></input>
+            )}
+            {currentStep == index ? (
+              <div>
+                <strong>
+                  GPT Answer:<br></br>
+                </strong>
+                <div style={{ padding: "0px 10px" }}>{recipeAnswers}</div>
+              </div>
+            ) : (
+              ""
+            )}
           </li>
         ))}
       </ul>

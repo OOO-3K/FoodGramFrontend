@@ -4,5 +4,8 @@
     },
     "server_detector": {
         "address": "http://localhost:8000/"
+    },
+    "server_gpt": {
+        "address": "http://localhost:8010/"
     }
 }
