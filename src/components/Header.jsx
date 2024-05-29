@@ -9,6 +9,8 @@ export default function Header({
   showFiltersTab,
   updateFilters,
   setUpdateFilters,
+  loggedIn,
+  setLoggedIn,
 }) {
   const [style, setStyle] = useState("filter-button");
 
@@ -52,14 +54,22 @@ export default function Header({
         <ul>
           <a href="">
             <li>
-              <h2>Settings</h2>
+              <Link to="/recipes/favourites">
+                <h2>Favourites</h2>
+              </Link>
             </li>
           </a>
           <a href="">
             <li>
-              <Link to="/">
-                <h2>Profile</h2>
-              </Link>
+              {loggedIn ? (
+                <Link to="/logout">
+                  <h2>Log out</h2>
+                </Link>
+              ) : (
+                <Link to="/login">
+                  <h2>Log in</h2>
+                </Link>
+              )}
             </li>
           </a>
         </ul>

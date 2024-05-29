@@ -7,10 +7,11 @@ export default async function getGPTRecipeDescription(
   try {
     const response = await axios.post(
       `${config.server_gpt.address}gemini/description/en/`,
-      recipeGPTDescriptionModel, {
+      recipeGPTDescriptionModel,
+      {
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       }
     );
     const post = response.data || [];

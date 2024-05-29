@@ -1,16 +1,16 @@
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
-import Login from "../components/Login.jsx";
+import Logout from "../components/Logout.jsx";
 
-export default function LoginPage({ loggedIn, setLoggedIn, setCookie }) {
+export default function LogoutPage({ loggedIn, setLoggedIn, cookie }) {
   return (
     <>
       <Header></Header>
-      <Login
+      <Logout
         loggedIn={loggedIn}
         setLoggedIn={setLoggedIn}
-        setCookie={setCookie}
-      ></Login>
+        cookie={cookie}
+      ></Logout>
       <Footer></Footer>
     </>
   );

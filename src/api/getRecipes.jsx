@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RecipeCard from "../components/RecipeCard.jsx";
 import config from "/config.json";
@@ -20,19 +19,16 @@ export default async function getRecipes(filters) {
     filters.cookingTimeTo = null;
   }
   try {
-    const response = await axios.get(
-      `${config.server.address}api/recipes/`,
-      {
-        params: {
-          name: filters.name,
-          ratingFrom: filters.ratingFrom,
-          ratingTo: filters.ratingTo,
-          cookingTimeFrom: filters.cookingTimeFrom,
-          cookingTimeTo: filters.cookingTimeTo,
-          ingredients: JSON.stringify(filters.ingredients),
-        },
-      }
-    );
+    const response = await axios.get(`${config.server.address}api/recipes/`, {
+      params: {
+        name: filters.name,
+        ratingFrom: filters.ratingFrom,
+        ratingTo: filters.ratingTo,
+        cookingTimeFrom: filters.cookingTimeFrom,
+        cookingTimeTo: filters.cookingTimeTo,
+        ingredients: JSON.stringify(filters.ingredients),
+      },
+    });
     const posts = response.data || [];
 
     return (

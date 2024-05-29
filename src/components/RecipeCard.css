@@ -20,6 +20,17 @@
   border-radius: 15px;
 }
 
+.favouritesButton {
+  border-radius: 15px;
+  background-color: #fbfada;
+  border-color: #12372a;
+  color: #12372a;
+  margin: 0px 2px;
+  padding: 0px 10px;
+  height: 30px;
+  vertical-align: middle;
+}
+
 @media (max-width: 576px) {
   .recipeCard {
     width: 300px;

@@ -6,6 +6,9 @@ import recipeGPTAnswers from "./models/recipeGPTAnswers.jsx";
 import getGPTRecipeDescription from "../api/getGPTRecipeDescription.jsx";
 import getGPTRecipeQuestions from "../api/getGPTRecipeQuestions.jsx";
 import getGPTRecipeAnswers from "../api/getGPTRecipeAnswers.jsx";
+import getFavouritesIn from "../api/getFavouritesIn.jsx";
+import getFavouritesAdd from "../api/getFavouritesAdd.jsx";
+import getFavouritesDelete from "../api/getFavouritesDelete.jsx";
 
 export default function RecipeCardWithSteps(recipe) {
   const [recipeModel, setRecipeModel] = useState(() => {
@@ -28,6 +31,54 @@ export default function RecipeCardWithSteps(recipe) {
   const ingredients = recipe.Ingredients || [];
   const steps = recipe.RecipeSteps || [];
 
+  const [InFavourites, setInFavourites] = useState(false);
+  const [toggleUpdate, setToggleUpdate] = useState(null);
+
+  useEffect(() => {
+    const fetchIsFavourite = async () => {
+      try {
+        const data = await getFavouritesIn(recipe.Id);
+        if (data) {
+          setInFavourites(true);
+        } else {
+          setInFavourites(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchIsFavourite();
+  }, []);
+
+  useEffect(() => {
+    const fetchIsFavourite = async () => {
+      if (toggleUpdate == null) {
+        return;
+      }
+      try {
+        if (InFavourites) {
+          const data = await getFavouritesDelete(
+            recipe.Id,
+            InFavourites,
+            setInFavourites
+          );
+        } else {
+          const data = await getFavouritesAdd(
+            recipe.Id,
+            InFavourites,
+            setInFavourites
+          );
+        }
+        setToggleUpdate(null);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchIsFavourite();
+  }, [toggleUpdate]);
+
   useEffect(() => {
     const fetchDataDescription = async () => {
       try {
@@ -37,6 +88,7 @@ export default function RecipeCardWithSteps(recipe) {
           ingredients.map((ingredient) => ingredient.Name)
         );
         recipeModel.steps = JSON.stringify(steps.map((step) => step.Name));
+        if (steps.length == 0) recipeModel.steps = JSON.stringify("no data");
         if (
           recipeModel.recipe_name == null ||
           recipeModel.time == null ||
@@ -136,6 +188,27 @@ export default function RecipeCardWithSteps(recipe) {
           ></img>
         )}
         <p>{recipe.Description}</p>
+        {InFavourites ? (
+          <button
+            className="favouritesButton"
+            onClick={(e) => {
+              e.preventDefault();
+              setToggleUpdate(true);
+            }}
+          >
+            Remove from favourites
+          </button>
+        ) : (
+          <button
+            className="favouritesButton"
+            onClick={(e) => {
+              e.preventDefault();
+              setToggleUpdate(false);
+            }}
+          >
+            Add to favourites
+          </button>
+        )}
         <p>
           {recipeDescription ? (
             <div>
@@ -199,6 +272,7 @@ export default function RecipeCardWithSteps(recipe) {
                               setCurrentQuestion(question);
                               setCurrentStep(index);
                               setToggleAnswers(!toggleAnswers);
+                              setRecipeAnswers("");
                             }}
                           >
                             {question}
@@ -225,6 +299,7 @@ export default function RecipeCardWithSteps(recipe) {
                       setCurrentQuestion(yoursQuestion);
                       setCurrentStep(index);
                       setToggleAnswers(!toggleAnswers);
+                      setRecipeAnswers("");
                     }
                   }
                 }}
@@ -242,6 +317,7 @@ export default function RecipeCardWithSteps(recipe) {
                       setCurrentQuestion(yoursQuestion);
                       setCurrentStep(index);
                       setToggleAnswers(!toggleAnswers);
+                      setRecipeAnswers("");
                     }
                   }
                 }}

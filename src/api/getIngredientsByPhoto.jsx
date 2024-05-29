@@ -2,7 +2,6 @@ import axios from "axios";
 import config from "/config.json";
 
 export default async function getIngredientsByPhoto(file) {
-
   try {
     const response = await axios.post(
       `${config.server_detector.address}detector/`,

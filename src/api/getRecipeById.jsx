@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RecipeCardWithSteps from "../components/RecipeCardWithSteps.jsx";
 import config from "/config.json";
