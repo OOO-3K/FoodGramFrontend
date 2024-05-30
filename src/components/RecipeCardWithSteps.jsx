@@ -321,7 +321,7 @@ export default function RecipeCardWithSteps(recipe) {
               {recipeQuestions[index] ? (
                 <div>
                   <strong>
-                    GPT Questions:<br></br>
+                    Any questions?<br></br>
                   </strong>
                   <div style={{ padding: "0px 10px" }}>
                     <ul>
