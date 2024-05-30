@@ -31,6 +31,14 @@
   vertical-align: middle;
 }
 
+.userScoreInput {
+  border-color: #fbfada;
+  background-color: #fbfada;
+  color: #12372a;
+  margin-left: 10px;
+  width: 30px;
+}
+
 @media (max-width: 576px) {
   .recipeCard {
     width: 300px;

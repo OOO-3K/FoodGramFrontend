@@ -63,11 +63,11 @@ export default function Header({
             <li>
               {loggedIn ? (
                 <Link to="/logout">
-                  <h2>Log out</h2>
+                  <h2>Profile</h2>
                 </Link>
               ) : (
                 <Link to="/login">
-                  <h2>Log in</h2>
+                  <h2>Profile</h2>
                 </Link>
               )}
             </li>
